@@ -65,47 +65,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email or str(self.id)
 
-    def get_active_subscription(self):
-        from payments.models import Subscription
-        try:
-            subscription = self.subscription
-            if subscription.is_active:
-                return subscription
-        except Subscription.DoesNotExist:
-            pass
-        return None
-
-    @property
-    def subscribed(self):
-        from payments.models import Subscription
-        try:
-            subscription = self.subscription
-            return subscription.is_active
-        except Subscription.DoesNotExist:
-            return False
-
-    @property
-    def subscription_plan(self):
-        from payments.models import Subscription
-        try:
-            subscription = self.subscription
-            if subscription.is_active:
-                return subscription.plan
-        except Subscription.DoesNotExist:
-            pass
-        return None
-
-    @property
-    def subscribed_until(self):
-        from payments.models import Subscription
-        try:
-            subscription = self.subscription
-            if subscription.is_active:
-                return subscription.current_period_end
-        except Subscription.DoesNotExist:
-            pass
-        return None
-
     @receiver(post_save, sender=settings.AUTH_USER_MODEL)
     def create_auth_token(sender, instance=None, created=False, **kwargs):
         if not Token.objects.filter(user=instance).exists():

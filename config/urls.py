@@ -53,8 +53,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include("api.urls")),
     path("api/papers/", include("papers.urls")),
-    path("accounts/", include("allauth.urls")),
-    path("api/stripe/", include("payments.urls")),
     re_path(r"^media/(?P<path>.*)$", serve_media),
 ]
 

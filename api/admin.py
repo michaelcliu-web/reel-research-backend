@@ -1,6 +1,4 @@
 from django.contrib import admin
-from django.utils import timezone
-from payments.admin import SubscriptionInline
 from django.contrib import messages
 
 from .models import CustomUser
@@ -9,7 +7,6 @@ from django.http import HttpResponse
 
 
 class CustomUserAdmin(admin.ModelAdmin):
-    inlines = [SubscriptionInline]
     actions = ["export_as_csv", "export_emails"]
 
     def get_actions(self, request):
@@ -28,9 +25,6 @@ class CustomUserAdmin(admin.ModelAdmin):
         "first_name",
         "last_name",
         "date_joined",
-        "subscribed_display",
-        "subscription_plan_display",
-        "subscribed_until_display",
         "id",
         "email_verified",
         "clerk_id",
@@ -43,7 +37,6 @@ class CustomUserAdmin(admin.ModelAdmin):
     ordering = ("-date_joined",)
     list_per_page = 50
     show_full_result_count = False
-    list_select_related = ('subscription',)
     search_fields = ("email", "clerk_id", "first_name", "last_name")
     list_filter = (
         "email_verified",
@@ -58,9 +51,6 @@ class CustomUserAdmin(admin.ModelAdmin):
         "id",
         "date_joined",
         "last_login",
-        "subscribed_display",
-        "subscription_plan_display",
-        "subscribed_until_display",
     )
 
     fieldsets = (
@@ -69,9 +59,6 @@ class CustomUserAdmin(admin.ModelAdmin):
         }),
         ("Account Status", {
             "fields": ("banned", "onboarded", "is_active", "is_staff", "is_superuser", "last_login", "date_joined")
-        }),
-        ("Subscription (read-only)", {
-            "fields": ("subscribed_display", "subscription_plan_display", "subscribed_until_display")
         }),
     )
 
@@ -86,34 +73,15 @@ class CustomUserAdmin(admin.ModelAdmin):
         self.message_user(request, f"Exported {queryset.count()} email(s).", messages.SUCCESS)
         return response
 
-    def subscribed_display(self, obj):
-        return bool(getattr(obj, "subscribed", False))
-    subscribed_display.boolean = True
-    subscribed_display.short_description = "Subscribed"
-
-    def subscription_plan_display(self, obj):
-        return getattr(obj, "subscription_plan", None) or "—"
-    subscription_plan_display.short_description = "Plan"
-
-    def subscribed_until_display(self, obj):
-        dt = getattr(obj, "subscribed_until", None)
-        return timezone.localtime(dt) if dt else "—"
-    subscribed_until_display.short_description = "Subscribed Until"
-
     def export_as_csv(self, request, queryset):
         meta = self.model._meta
         field_names = [field.name for field in meta.fields]
         response = HttpResponse(content_type="text/csv")
         response["Content-Disposition"] = f'attachment; filename={meta.model_name}.csv'
         writer = csv.writer(response)
-        writer.writerow(field_names + ["subscribed", "subscription_plan", "subscribed_until"])
+        writer.writerow(field_names)
         for obj in queryset:
             row = [getattr(obj, field) for field in field_names]
-            row.extend([
-                bool(getattr(obj, "subscribed", False)),
-                getattr(obj, "subscription_plan", None) or "",
-                getattr(obj, "subscribed_until", None) or "",
-            ])
             writer.writerow(row)
         return response
     export_as_csv.short_description = "Export Selected as CSV"

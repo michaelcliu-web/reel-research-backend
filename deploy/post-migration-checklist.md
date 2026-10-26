@@ -27,14 +27,6 @@ Complete this checklist after migrating from Heroku to AWS.
 - [ ] **Messages**: Real-time features work
 - [ ] **Reconnection**: Handles disconnects gracefully
 
-## Payments
-
-- [ ] **Stripe Dashboard**: Update webhook URL to AWS endpoint
-  - Old: `https://your-heroku-app.herokuapp.com/api/stripe/webhook/`
-  - New: `https://api.example.com/api/stripe/webhook/`
-- [ ] **Test Webhook**: Send test event from Stripe
-- [ ] **Payment Flow**: Complete a test purchase
-
 ## External Services
 
 - [ ] **Firebase**: Verify Firebase connections

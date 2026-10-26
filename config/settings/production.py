@@ -32,21 +32,11 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     # project apps
     "api",
-    "payments",
     # third party apps
     "rest_framework",
     "rest_framework.authtoken",
     "django_cleanup.apps.CleanupConfig",
     "corsheaders",
-    # Django OTP (2FA)
-    "django_otp",
-    "django_otp.plugins.otp_totp",
-    "django_otp.plugins.otp_static",
-    # AllAuth
-    "allauth",
-    "allauth.account",
-    "allauth.socialaccount",
-    "allauth.socialaccount.providers.google",
     # channels
     "channels",
 ]
@@ -67,12 +57,6 @@ JWT_AUTH = {
     "JWT_AUTH_HEADER_PREFIX": "Bearer",
 }
 
-ACCOUNT_AUTHENTICATION_METHOD = "email"
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-ACCOUNT_USERNAME_REQUIRED = False
-
 ASGI_APPLICATION = "config.asgi.application"
 WSGI_APPLICATION = "config.wsgi.application"
 
@@ -86,7 +70,6 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.auth.middleware.RemoteUserMiddleware",
-    "django_otp.middleware.OTPMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -164,15 +147,6 @@ SENDGRID_API_KEY = env('SENDGRID_API_KEY', default='')
 SENDGRID_SANDBOX_MODE_IN_DEBUG = False
 DEFAULT_FROM_EMAIL = 'App <noreply@example.com>'
 ADMIN_URL = 'https://api.example.com/admin'
-
-# Stripe
-STRIPE_PUBLIC_KEY = env("STRIPE_PUBLIC_KEY")
-STRIPE_SECRET_KEY = env("STRIPE_SECRET_KEY")
-STRIPE_WEBHOOK_SECRET = env("STRIPE_WEBHOOK_SECRET")
-STRIPE_WEBHOOK_ENDPOINT = env("STRIPE_WEBHOOK_ENDPOINT", default="https://api.example.com/api/stripe/webhook/")
-
-STRIPE_MONTHLY_PRICE_ID = env("STRIPE_MONTHLY_PRICE_ID", default="")
-STRIPE_YEARLY_PRICE_ID = env("STRIPE_YEARLY_PRICE_ID", default="")
 
 # Production Security
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")

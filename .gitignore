@@ -152,3 +152,8 @@ backend/backend/mediafiles/**/*.*
 !58f80b50-738c-58f9-b84a-be2c35d6002f.png
 embedded/salesforce/.localdevserver*.dump
 *.dump.*
+
+# Virtualenvs and generated static files
+venv/
+venv39/
+staticfiles/

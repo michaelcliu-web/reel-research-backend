@@ -282,7 +282,6 @@ The `.env.prod` file contains all environment variables. Key ones:
 | `DATABASE_URL` | Full PostgreSQL connection string |
 | `AUTH0_AUDIENCE` | Auth0 API identifier |
 | `AUTH0_DOMAIN` | Auth0 domain |
-| `STRIPE_*` | Stripe API keys and price IDs |
 | `OPENAI_API_KEY` | OpenAI API key |
 | `ANTHROPIC_API_KEY` | Anthropic API key |
 | `SENDGRID_API_KEY` | Twilio SendGrid API key (for emails) |
@@ -346,4 +345,3 @@ If your IP changes and you can't SSH:
 
 ### As Needed
 - Scale EC2/RDS instance sizes based on traffic
-- Update Stripe webhook URL if API URL changes

@@ -1,6 +1,6 @@
 # App Backend
 
-Django REST Framework backend with Clerk authentication, Stripe payments, and WebSocket support via Django Channels.
+Django REST Framework backend with Clerk authentication and WebSocket support via Django Channels.
 
 ## Setup
 
@@ -8,14 +8,13 @@ Django REST Framework backend with Clerk authentication, Stripe payments, and We
 - Python 3.9+
 - PostgreSQL 15+
 - A [Clerk](https://clerk.dev) account
-- A [Stripe](https://stripe.com) account
 
 ### Local Development
 
 1. Create a virtual environment:
 ```bash
-python -m venv venv
-source venv/bin/activate
+python3.9 -m venv venv39
+source venv39/bin/activate
 ```
 
 2. Install dependencies:
@@ -66,7 +65,6 @@ app-backend/
 │   ├── wsgi.py
 │   └── urls.py
 ├── api/              # Main API app (users, auth)
-├── payments/         # Stripe subscription management
 ├── clerkauth/        # Clerk JWT utilities
 ├── deploy/           # Deployment scripts and configs
 └── manage.py
@@ -77,11 +75,3 @@ app-backend/
 - `GET /health/` - Health check
 - `GET /api/users/me/` - Current user
 - `POST /api/users/{id}/edit/` - Update user
-- `GET /api/users/subscription/` - Subscription status
-- `POST /api/stripe/create-checkout-session/` - Create Stripe checkout
-- `POST /api/stripe/create-portal-session/` - Stripe billing portal
-- `POST /api/stripe/cancel-subscription/` - Cancel subscription
-- `POST /api/stripe/reactivate-subscription/` - Reactivate subscription
-- `POST /api/stripe/switch-plan/` - Switch billing plan
-- `POST /api/stripe/webhook/` - Stripe webhook handler
-- `POST /api/stripe/verify-checkout/` - Verify checkout session

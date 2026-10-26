@@ -408,8 +408,8 @@ class AppConsumer(AsyncWebsocketConsumer):
                 storyboard = None
                 storyboard_text = ""
                 async with anthropic_client.messages.stream(
-                    model="claude-opus-4-20250514",
-                    max_tokens=8192,
+                    model="claude-opus-5-5",
+                    max_tokens=64000,
                     messages=[{"role": "user", "content": storyboard_prompt}],
                 ) as stream:
                     async for text in stream.text_stream:
@@ -556,7 +556,6 @@ class AppConsumer(AsyncWebsocketConsumer):
                         "- MathTex() only: keep expressions simple and self-contained (e.g. MathTex(r'E = mc^2')). "
                         "NEVER put raw text prose, multi-line environments (align, array, tabular), or custom LaTeX packages inside MathTex — they will fail to compile. "
                         "If unsure whether LaTeX will compile, use Text() instead.\n"
-                        "- NEVER add a non-VMobject into a VGroup — this raises 'TypeError: All submobjects must be of type VMobject'. Non-VMobjects include Group, any plain Python object, and certain wrappers. If you need to mix VMobjects and non-VMobjects, use Group (not VGroup). If you are building a VGroup, every item inside it must be a VMobject (Text, MathTex, Circle, Square, Arrow, Line, Dot, etc.).\n"
                         "- NEVER use Write() on a Group or non-VMobject — Write() only works on VMobjects (Text, MathTex, shapes). Use FadeIn() for Groups.\n"
                         "- NEVER use DrawBorderThenFill() on Text or MathTex — only use it on filled shapes like Circle, Square, Rectangle.\n"
                         "- NEVER use GrowFromCenter() or GrowFromEdge() on a Group — use FadeIn() or AnimationGroup(FadeIn(obj) for obj in group) instead.\n"
@@ -588,8 +587,8 @@ class AppConsumer(AsyncWebsocketConsumer):
 
                     scene_manim_code = ""
                     async with anthropic_client.messages.stream(
-                        model="claude-opus-4-20250514",
-                        max_tokens=4096,
+                        model="claude-opus-5-5",
+                        max_tokens=64000,
                         messages=[{"role": "user", "content": scene_manim_prompt}],
                     ) as stream:
                         async for text in stream.text_stream:

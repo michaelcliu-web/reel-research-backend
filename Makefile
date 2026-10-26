@@ -20,8 +20,8 @@ superuser:
 
 install:
 	( \
-		python3 -m venv venv; \
-		source venv/bin/activate; \
+		python3.9 -m venv venv39; \
+		source venv39/bin/activate; \
 		pip install -r requirements.txt; \
 		python3 manage.py createsuperuser --noinput; \
 	)

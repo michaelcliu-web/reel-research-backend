@@ -34,22 +34,12 @@ INSTALLED_APPS = [
     'django_extensions',
     # project apps
     "api",
-    "payments",
     "papers",
     # third party apps
     "rest_framework",
     "rest_framework.authtoken",
     "django_cleanup.apps.CleanupConfig",
     "corsheaders",
-    # AllAuth
-    "allauth",
-    "allauth.account",
-    "allauth.socialaccount",
-    "allauth.socialaccount.providers.google",
-    # Django OTP (2FA)
-    "django_otp",
-    "django_otp.plugins.otp_totp",
-    "django_otp.plugins.otp_static",
     # channels
     "channels",
 ]
@@ -70,12 +60,6 @@ JWT_AUTH = {
     "JWT_AUTH_HEADER_PREFIX": "Bearer",
 }
 
-ACCOUNT_AUTHENTICATION_METHOD = "email"
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-ACCOUNT_USERNAME_REQUIRED = False
-
 ASGI_APPLICATION = "config.asgi.application"
 WSGI_APPLICATION = "config.wsgi.application"
 
@@ -89,7 +73,6 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.auth.middleware.RemoteUserMiddleware",
-    "django_otp.middleware.OTPMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -156,13 +139,5 @@ CLERK_SECRET_KEY = env("CLERK_SECRET_KEY")
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = 'App <noreply@example.com>'
 ADMIN_URL = 'http://localhost:8000/admin'
-
-# Stripe
-STRIPE_PUBLIC_KEY = env("STRIPE_PUBLIC_KEY")
-STRIPE_SECRET_KEY = env("STRIPE_SECRET_KEY")
-STRIPE_WEBHOOK_SECRET = env("STRIPE_WEBHOOK_SECRET")
-
-STRIPE_MONTHLY_PRICE_ID = env("STRIPE_MONTHLY_PRICE_ID", default="")
-STRIPE_YEARLY_PRICE_ID = env("STRIPE_YEARLY_PRICE_ID", default="")
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
