@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     # project apps
     "api",
+    "papers",
     # third party apps
     "rest_framework",
     "rest_framework.authtoken",
