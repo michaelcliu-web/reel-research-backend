@@ -157,3 +157,6 @@ embedded/salesforce/.localdevserver*.dump
 venv/
 venv39/
 staticfiles/
+
+# Editor workspaces
+*.code-workspace

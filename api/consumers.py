@@ -8,7 +8,6 @@ import fitz  # PyMuPDF
 import anthropic
 import requests as http_requests
 import environ
-from google import genai
 
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
@@ -17,7 +16,6 @@ env = environ.Env()
 env.read_env()
 
 anthropic_client = anthropic.AsyncAnthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
-gemini_client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 ELEVENLABS_API_KEY = os.getenv("ELEVENLABS_API_KEY")
 ELEVENLABS_VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID", "21m00Tcm4TlvDq8ikWAM")
@@ -262,7 +260,7 @@ class AppConsumer(AsyncWebsocketConsumer):
                 if len(paper_text) > MAX_PAPER_CHARS:
                     paper_text = paper_text[:MAX_PAPER_CHARS]
 
-                # ── 2. Summarize with Gemini (streamed) ──
+                # ── 2. Summarize (streamed) ──
                 await self.send(text_data=json.dumps({
                     "websocket_type": "generate_video",
                     "status": "summarizing",

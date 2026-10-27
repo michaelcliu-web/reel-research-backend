@@ -1,20 +1,13 @@
 from .models import CustomUser
 from .serializers import CustomUserSerializer
 from .permissions import IsAuthenticatedAndOwnerUser
+from .utils import report_to_sentry
 
 from rest_framework import viewsets, mixins, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.shortcuts import get_object_or_404
-
-
-def report_to_sentry(error):
-    try:
-        import sentry_sdk
-        sentry_sdk.capture_exception(error) if isinstance(error, Exception) else sentry_sdk.capture_message(str(error))
-    except ImportError:
-        pass
 
 
 class CustomUserViewSet(
