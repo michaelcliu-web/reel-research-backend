@@ -236,7 +236,7 @@ class AppConsumer(AsyncWebsocketConsumer):
             try:
                 # ── 1. Parse PDF ──
                 from papers.models import Paper
-                paper = await database_sync_to_async(Paper.objects.get)(id=paper_id)
+                paper = await database_sync_to_async(Paper.objects.get)(id=paper_id, user=self.user)
                 pdf_path = await database_sync_to_async(lambda: paper.pdf_file.path)()
                 pdf_url = await database_sync_to_async(lambda: paper.pdf_file.url)()
 

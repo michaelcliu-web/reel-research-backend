@@ -18,8 +18,9 @@ def page_not_found(request, exception=None):
 
 def serve_media(request, path):
     """Serve media files with HTTP Range request support so video seeking works."""
-    full_path = os.path.join(settings.MEDIA_ROOT, path)
-    if not os.path.exists(full_path):
+    media_root = os.path.realpath(settings.MEDIA_ROOT)
+    full_path = os.path.realpath(os.path.join(media_root, path))
+    if os.path.commonpath([media_root, full_path]) != media_root or not os.path.isfile(full_path):
         return HttpResponseNotFound()
 
     file_size = os.path.getsize(full_path)
