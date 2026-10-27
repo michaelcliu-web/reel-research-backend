@@ -14,7 +14,7 @@ elif env("ENVIRONMENT") == "PRODUCTION":
 django_asgi_app = get_asgi_application()
 
 from api.routing import ws_urlpatterns
-from api.middleware import TokenAuthMiddleware
+from clerkauth.middleware import TokenAuthMiddleware
 
 application = ProtocolTypeRouter(
     {

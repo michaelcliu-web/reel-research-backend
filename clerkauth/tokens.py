@@ -1,7 +1,6 @@
 import json
 import jwt
 import requests
-from django.contrib.auth import authenticate
 from django.conf import settings
 
 _jwks_cache = None
@@ -65,31 +64,11 @@ def jwt_decode_token(token):
     )
 
 
-def _get_email_from_payload(payload):
+def get_email_from_payload(payload):
     """Extract email from token payload, falling back to Clerk API."""
     email = payload.get("email")
     if not email:
         clerk_user_id = payload.get("sub")
         if clerk_user_id:
             email = _fetch_clerk_user(clerk_user_id)
-    return email
-
-
-def jwt_get_username_from_payload_handler(payload):
-    clerk_id = payload.get("sub")
-    email = _get_email_from_payload(payload)
-
-    if not email:
-        raise Exception("No email found for Clerk user")
-
-    user = authenticate(remote_user=email)
-
-    if not user.email_verified:
-        user.email_verified = True
-        user.save()
-
-    if user.clerk_id is None or user.clerk_id != clerk_id:
-        user.clerk_id = clerk_id
-        user.save()
-
     return email

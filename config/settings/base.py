@@ -39,8 +39,8 @@ REST_FRAMEWORK = {
 }
 
 JWT_AUTH = {
-    "JWT_PAYLOAD_GET_USERNAME_HANDLER": "clerkauth.utils.jwt_get_username_from_payload_handler",
-    "JWT_DECODE_HANDLER": "clerkauth.utils.jwt_decode_token",
+    "JWT_PAYLOAD_GET_USERNAME_HANDLER": "clerkauth.users.jwt_get_username_from_payload_handler",
+    "JWT_DECODE_HANDLER": "clerkauth.tokens.jwt_decode_token",
     "JWT_ALGORITHM": "RS256",
     "JWT_AUTH_HEADER_PREFIX": "Bearer",
 }
