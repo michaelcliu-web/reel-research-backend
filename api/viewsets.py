@@ -1,7 +1,7 @@
 from .models import CustomUser
 from .serializers import CustomUserSerializer
 from .permissions import IsAuthenticatedAndOwnerUser
-from .utils import report_to_sentry
+from core.errors import report_to_sentry
 
 from rest_framework import viewsets, mixins, status
 from rest_framework.response import Response
