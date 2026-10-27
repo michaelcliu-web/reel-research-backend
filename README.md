@@ -59,16 +59,25 @@ docker-compose up --build
 app-backend/
 ├── config/           # Django project settings
 │   ├── settings/
-│   │   ├── local.py
-│   │   └── production.py
+│   │   ├── base.py         # shared settings
+│   │   ├── local.py        # local overrides
+│   │   └── production.py   # production overrides
 │   ├── asgi.py
 │   ├── wsgi.py
 │   └── urls.py
-├── api/              # Main API app (users, auth)
-├── clerkauth/        # Clerk JWT utilities
+├── api/              # Users (custom user model, admin, /api/users/)
+├── clerkauth/        # Clerk JWT decoding, user resolution, WebSocket auth middleware
+├── core/             # Health check, media serving, Sentry helper
+├── papers/           # Paper uploads and video generation
+│   ├── consumers.py  # WebSocket entry point (ws/app/), dispatches by websocket_type
+│   ├── handlers/     # One module per WebSocket message type
+│   ├── pipeline/     # PDF → summary → storyboard → TTS → Manim → final video
+│   └── prompts/      # All LLM prompts
 ├── deploy/           # Deployment scripts and configs
 └── manage.py
 ```
+
+Run tests with `python manage.py test`.
 
 ## API Endpoints
 
