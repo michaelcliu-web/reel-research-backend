@@ -1,8 +1,24 @@
+import mimetypes
 import os
 import re
 
 from django.conf import settings
-from django.http import FileResponse, HttpResponseNotFound, HttpResponseBadRequest
+from django.http import FileResponse, StreamingHttpResponse, HttpResponseNotFound, HttpResponseBadRequest
+
+CHUNK_SIZE = 64 * 1024
+
+
+def _read_range(path, start, length):
+    """Yield exactly `length` bytes of the file starting at `start`."""
+    with open(path, "rb") as f:
+        f.seek(start)
+        remaining = length
+        while remaining > 0:
+            chunk = f.read(min(CHUNK_SIZE, remaining))
+            if not chunk:
+                break
+            remaining -= len(chunk)
+            yield chunk
 
 
 def serve_media(request, path):
@@ -24,9 +40,8 @@ def serve_media(request, path):
         end = min(end, file_size - 1)
         length = end - start + 1
 
-        f = open(full_path, "rb")
-        f.seek(start)
-        response = FileResponse(f, status=206)
+        response = StreamingHttpResponse(_read_range(full_path, start, length), status=206)
+        response["Content-Type"] = mimetypes.guess_type(full_path)[0] or "application/octet-stream"
         response["Content-Range"] = f"bytes {start}-{end}/{file_size}"
         response["Content-Length"] = length
         response["Accept-Ranges"] = "bytes"

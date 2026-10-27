@@ -29,6 +29,14 @@ class ServeMediaTests(SimpleTestCase):
         response = self.client.get("/media/videos/clip.mp4", HTTP_RANGE="bytes=2-5")
         self.assertEqual(response.status_code, 206)
         self.assertEqual(response["Content-Range"], "bytes 2-5/10")
+        self.assertEqual(response["Content-Length"], "4")
+        self.assertEqual(response["Content-Type"], "video/mp4")
+        self.assertEqual(b"".join(response.streaming_content), b"2345")
+
+    def test_open_ended_range(self):
+        response = self.client.get("/media/videos/clip.mp4", HTTP_RANGE="bytes=7-")
+        self.assertEqual(response["Content-Range"], "bytes 7-9/10")
+        self.assertEqual(b"".join(response.streaming_content), b"789")
 
     def test_rejects_paths_outside_media_root(self):
         for path in ["/media/../.env", "/media/..%2f.env", "/media/videos/..%2f..%2f.env"]:
