@@ -7,7 +7,7 @@ def storyboard_prompt(audience, summary):
         "For each scene provide:\n"
         "- narration: Elucidated spoken text for that scene\n"
         "- visuals: A concise description of what to animate, be as descriptive as possible for the best intuitive understanding for the viewer.\n"
-        "- specifics: Make sure to be descriptive when explaining the core of the paper. Try and include raw formulas, mathematics, the science, the change in thinking, and why it works in the animations.\n"
+        "- specifics: Make sure to be descriptive when explaining the core of the paper. Ground answers int he paper. Try and include raw formulas, mathematics, the science, the change in thinking, and why it works in the animations.\n"
         "- NEVER repeat long formulas, constants, or in speech. ONLY have it on the screen as necessary.\n"
         "- duration: Make sure to be descriptive and create an intuitive understanding when possible, but be sure to keep it to around 60-120 seconds.\n\n"
         f"Reminder: MAKE SURE to follow the instructions in {audience}.\n"
